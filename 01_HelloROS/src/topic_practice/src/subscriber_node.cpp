@@ -1,9 +1,15 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
+
 class SubscriberNode : public rclcpp::Node{
-  private:
+private:
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
+    void message_callback(const std_msgs::msg::String::SharedPtr msg){
+        RCLCPP_INFO(this->get_logger(), 
+        "订阅: %s",
+         msg->data.c_str());
+    }
 public:
     SubscriberNode() : Node("subscriber_node")
     {
@@ -17,12 +23,8 @@ public:
         );
     }
 
-    void message_callback(const std_msgs::msg::String::SharedPtr msg){
-        RCLCPP_INFO(this->get_logger(), 
-        "订阅: %s",
-         msg->data.c_str());
-    } 
 };
+
 
 int main(int argc,char* argv[]){
     rclcpp::init(argc,argv);
