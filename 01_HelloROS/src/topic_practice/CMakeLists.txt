@@ -17,13 +17,28 @@ find_package(ament_cmake REQUIRED)
 add_executable(publisher src/publisher_node.cpp)
 add_executable(subscriber src/subscriber_node.cpp)
 
-ament_target_dependencies(publisher rclcpp std_msgs interface_pkg)
-ament_target_dependencies(subscriber rclcpp std_msgs interface_pkg)
-
-
-install(TARGETS
+ament_target_dependencies(
   publisher
-  subscriber
+  rclcpp
+  std_msgs 
+  interface_pkg
+)
+ament_target_dependencies(
+  subscriber 
+  rclcpp 
+  std_msgs 
+  interface_pkg
+)
+
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  TARGETS
+    publisher
+    subscriber
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
